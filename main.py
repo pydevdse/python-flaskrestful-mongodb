@@ -35,6 +35,8 @@ def create_user():
 
 class ApiMongo(Resource):
     def post(self):
+        if not request.json:
+            return jsonify(Error="JSON not found in request")
         req = request.get_json()
         if not req:
             return jsonify(Error="Json not found")
@@ -83,6 +85,8 @@ class ApiMongo(Resource):
         return jsonify(id=users_count)
 
     def get(self):
+        if not request.json:
+            return jsonify(Error="JSON not found in request")
         if "id" in request.json:  # if id in request: find and return contact
             contact = mongo.phones_table.find_one({"id": request.json.get("id")})
             if not contact:
@@ -112,6 +116,8 @@ class ApiMongo(Resource):
         return jsonify({"contacts": list_users})
 
     def put(self):
+        if not request.json:
+            return jsonify(Error="JSON not found in request")
         if "id" not in request.json:  # if id in request: find and return contact
             return jsonify(Error="Id not found in request")
         contact = mongo.phones_table.find_one({"id": request.json.get("id")})
@@ -136,6 +142,8 @@ class ApiMongo(Resource):
         return jsonify(Update=str(contact_put))
 
     def delete(self):
+        if not request.json:
+            return jsonify(Error="JSON not found in request")
         if "id" not in request.json:  # if id in request: find and return contact
             return jsonify(Error="Id not found in request")
 
